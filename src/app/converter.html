@@ -1,0 +1,172 @@
+<div class="max-w-5xl w-full flex flex-col items-center text-center">
+    <p class="text-brand-green text-[10px] font-medium mb-2 uppercase tracking-wider">Explore Real-Time Exchange Rates
+        with Ease</p>
+    <h1 class="text-3xl md:text-5xl font-extrabold leading-[1.1] mb-8 max-w-3xl mx-auto uppercase">
+        STAY AHEAD WITH <span class="text-brand-green">CURRENCY CONVERTER</span><br>
+        REAL-TIME CURRENCY<br>
+        INSIGHTS
+    </h1>
+
+    <!-- Converter Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-12 w-full text-left">
+
+        <!-- Left Card: Calculator -->
+        <div
+            class="bg-white/60 dark:bg-[#111111]/40 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-[1.5rem] p-6 flex flex-col items-center justify-between min-h-[360px] shadow-sm dark:shadow-none transition-all duration-300">
+            <div class="text-gray-400 dark:text-white/40 text-[10px] font-mono mb-4">{{ currentTime() }}</div>
+
+            <div class="w-full space-y-3 flex-grow flex flex-col justify-center">
+                <!-- From Input -->
+                <div class="relative group">
+                    <div
+                        class="flex items-center bg-gray-100 dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl p-1 focus-within:border-brand-green dark:focus-within:border-brand-green transition-all duration-300">
+                        <input type="number" [ngModel]="amount()" (ngModelChange)="amount.set($event)"
+                            class="bg-transparent text-gray-900 dark:text-white text-xl font-bold w-full px-4 py-2.5 outline-none appearance-none"
+                            placeholder="0.00">
+                        <div (click)="openSelector('from')"
+                            class="border-l border-black/10 dark:border-white/10 px-4 py-2.5 flex items-center space-x-2 min-w-[110px] justify-center text-base font-bold bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer transition-colors">
+                            <img [src]="getFlagUrl(getCountryCode(fromCurrency()))"
+                                class="w-6 h-4 rounded-sm object-cover" alt="Flag">
+                            <span>{{ fromCurrency() }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="opacity-50">
+                                <path d="m6 9 6 6 6-6" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Swap Button -->
+                <div class="flex justify-center -my-2.5 relative z-20">
+                    <button (click)="swapCurrencies()"
+                        class="bg-white dark:bg-[#1a1a1a] border border-black/5 dark:border-white/10 p-2 rounded-lg hover:border-brand-green hover:text-brand-green transition-all duration-300 hover:scale-110 active:scale-95 text-gray-400 dark:text-white/40 shadow-sm dark:shadow-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="transform rotate-90 md:rotate-0">
+                            <path d="m16 3 4 4-4 4" />
+                            <path d="M20 7H4" />
+                            <path d="m8 21-4-4 4-4" />
+                            <path d="M4 17h16" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- To Input -->
+                <div class="relative group">
+                    <div
+                        class="flex items-center bg-gray-100 dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl p-1 focus-within:border-brand-green dark:focus-within:border-brand-green transition-all duration-300">
+                        <input type="text" [disabled]="true" [value]="convertedAmount() | number:'1.2-2'"
+                            class="bg-transparent text-gray-900 dark:text-white text-xl font-bold w-full px-4 py-2.5 outline-none">
+                        <div (click)="openSelector('to')"
+                            class="border-l border-black/10 dark:border-white/10 px-4 py-2.5 flex items-center space-x-2 min-w-[110px] justify-center text-base font-bold bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer transition-colors">
+                            <img [src]="getFlagUrl(getCountryCode(toCurrency()))"
+                                class="w-6 h-4 rounded-sm object-cover" alt="Flag">
+                            <span>{{ toCurrency() }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="opacity-50">
+                                <path d="m6 9 6 6 6-6" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button
+                class="mt-5 border border-black/5 dark:border-white/10 bg-gray-900 dark:bg-black/40 text-white px-8 py-2.5 rounded-full hover:bg-brand-green hover:text-black hover:border-brand-green transition-all duration-300 font-bold text-xs shadow-lg dark:shadow-none">
+                Convert
+            </button>
+        </div>
+
+        <!-- Right Card: Live Rates -->
+        <div
+            class="bg-white/60 dark:bg-[#111111]/40 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-[1.5rem] p-6 flex flex-col h-[360px] shadow-sm dark:shadow-none transition-all duration-300">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-sm font-bold text-gray-900 dark:text-white/80">Live Exchange Rates</h2>
+                <div
+                    class="bg-gray-100 dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-full px-3 py-1 text-[10px] font-bold text-gray-600 dark:text-white/60 tracking-widest flex items-center gap-2">
+                    <img [src]="getFlagUrl(getCountryCode(fromCurrency()))" class="w-4 h-3 rounded-sm object-cover"
+                        alt="Flag">
+                    {{ fromCurrency() }}
+                </div>
+            </div>
+
+            <div class="space-y-2 flex-grow overflow-y-auto pr-2 custom-scrollbar">
+                @for (currency of currencies(); track currency.code) {
+                @if (currency.code !== fromCurrency()) {
+                <div
+                    class="group flex items-center justify-between border-b border-black/5 dark:border-white/5 py-3 transition-all hover:bg-black/5 dark:hover:bg-white/5 px-3 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <img [src]="getFlagUrl(currency.countryCode)" class="w-8 h-6 rounded shadow-sm object-cover"
+                            alt="Flag">
+                        <div class="flex flex-col">
+                            <span class="text-base font-bold tracking-tight text-gray-900 dark:text-white">{{
+                                currency.code }}</span>
+                            <span class="text-[10px] text-gray-500 dark:text-white/40 font-medium">{{ currency.name
+                                }}</span>
+                        </div>
+                    </div>
+                    <div class="text-sm font-bold text-gray-900 dark:text-white">
+                        <span class="text-gray-400 dark:text-white/40 text-[10px] mr-1">1 {{ fromCurrency() }} =</span>
+                        <span class="text-brand-green">{{ getRateFor(currency.code) }}</span> {{ currency.code }}
+                    </div>
+                </div>
+                }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Selection Modal -->
+@if (isSelectorOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 dark:bg-black/80 backdrop-blur-sm p-4"
+    (click)="closeSelector()">
+    <div class="bg-white dark:bg-[#111111] border border-black/5 dark:border-white/10 w-full max-w-md rounded-2xl p-6 flex flex-col max-h-[80vh] shadow-2xl"
+        (click)="$event.stopPropagation()">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Select Currency</h3>
+            <button (click)="closeSelector()"
+                class="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors text-gray-500 dark:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <input type="text" [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)"
+            placeholder="Search currency..."
+            class="w-full bg-gray-100 dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl px-4 py-3 mb-4 outline-none focus:border-brand-green dark:focus:border-brand-green transition-colors text-sm font-medium text-gray-900 dark:text-white">
+
+        <div class="flex-grow overflow-y-auto custom-scrollbar space-y-2">
+            @for (currency of filteredCurrencies(); track currency.code) {
+            <button
+                class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left group"
+                (click)="selectCurrency(currency.code)">
+                <div class="flex items-center space-x-4">
+                    <img [src]="getFlagUrl(currency.countryCode)" class="w-8 h-6 rounded shadow-sm object-cover"
+                        alt="Flag">
+                    <div>
+                        <div class="font-bold font-mono text-gray-900 dark:text-white">{{ currency.code }}</div>
+                        <div
+                            class="text-xs text-gray-500 dark:text-white/40 group-hover:text-gray-700 dark:group-hover:text-white/60 transition-colors">
+                            {{ currency.name }}</div>
+                    </div>
+                </div>
+                @if (currency.code === fromCurrency() || currency.code === toCurrency()) {
+                <div class="text-brand-green">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                </div>
+                }
+            </button>
+            }
+        </div>
+    </div>
+</div>
+}
